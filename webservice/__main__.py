@@ -14,12 +14,9 @@ async def issue_opened_event(event, gh, *args, **kwargs):
     """
     Whenever an issue is opened, greet the author and say thanks.
     """
-    print("got it")
     author = event.data["issue"]["user"]["login"]
     message = f"Thanks for the report {author}! I will look into it ASAP!"
     issue_comment_url = event.data["issue"]["comments_url"]
-    print(f"post {issue_comment_url}")
-    print(f"{message}")
     await gh.post(issue_comment_url,
             data={
                 "body": message
@@ -45,15 +42,12 @@ async def main(request):
     body = await request.read()
 
     secret = os.environ.get("GH_SECRET")
-    oauth_token = os.environ.get("GH_TOKEN")
+    oauth_token = os.environ.get("GH_AUTH")
 
     event = sansio.Event.from_http(request.headers, body, secret=secret)
     async with aiohttp.ClientSession() as session:
         gh = gh_aiohttp.GitHubAPI(session, "mariatta",
                                   oauth_token=oauth_token)
-        print(oauth_token)
-        print(secret)
-        print("hello")
         await router.dispatch(event, gh)
     return web.Response(status=200)
 
