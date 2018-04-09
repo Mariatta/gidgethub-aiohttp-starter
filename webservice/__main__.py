@@ -10,10 +10,12 @@ from gidgethub import aiohttp as gh_aiohttp
 router = routing.Router()
 
 @router.register("issue", action="opened")
+@router.register("issue", action="reopened")
 async def issue_opened_event(event, gh, *args, **kwargs):
     """
     Whenever an issue is opened, greet the author and say thanks.
     """
+    print("got it")
     author = event.data["issue"]["user"]["login"]
     message = f"Thanks for the report {author}! I will look into it ASAP!"
     issue_comment_url = event.data["issue"]["comments_url"]
@@ -33,6 +35,7 @@ async def main(request):
     async with aiohttp.ClientSession() as session:
         gh = gh_aiohttp.GitHubAPI(session, "mariatta",
                                   oauth_token=oauth_token)
+        print("hello")
         await router.dispatch(event, gh)
     return web.Response(status=200)
 
