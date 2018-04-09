@@ -1,16 +1,15 @@
 import os
-import asyncio
 import aiohttp
 
 from aiohttp import web
 
 from gidgethub import routing, sansio
 from gidgethub import aiohttp as gh_aiohttp
-# import cachetools
+
 router = routing.Router()
-# cache = cachetools.LRUCache(maxsize=500)
-@router.register("issue", action="opened")
-@router.register("issue", action="reopened")
+
+@router.register("issues", action="opened")
+@router.register("issues", action="reopened")
 async def issue_opened_event(event, gh, *args, **kwargs):
     """
     Whenever an issue is opened, greet the author and say thanks.
@@ -51,7 +50,6 @@ async def main(request):
         gh = gh_aiohttp.GitHubAPI(session, "mariatta",
                                   oauth_token=oauth_token)
         print("hello")
-        await asyncio.sleep(1)
         await router.dispatch(event, gh)
     return web.Response(status=200)
 
