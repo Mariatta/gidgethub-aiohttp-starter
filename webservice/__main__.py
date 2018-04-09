@@ -18,6 +18,8 @@ async def issue_opened_event(event, gh, *args, **kwargs):
     author = event.data["issue"]["user"]["login"]
     message = f"Thanks for the report {author}! I will look into it ASAP!"
     issue_comment_url = event.data["issue"]["comments_url"]
+    print(f"post {issue_comment_url}")
+    print(f"{message}")
     await gh.post(issue_comment_url,
             data={
                 "body": message
@@ -49,6 +51,8 @@ async def main(request):
     async with aiohttp.ClientSession() as session:
         gh = gh_aiohttp.GitHubAPI(session, "mariatta",
                                   oauth_token=oauth_token)
+        print(oauth_token)
+        print(secret)
         print("hello")
         await router.dispatch(event, gh)
     return web.Response(status=200)
