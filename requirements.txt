@@ -1,2 +1,3 @@
 aiohttp
 gidgethub
+raven>=3
