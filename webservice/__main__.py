@@ -1,5 +1,6 @@
 import os
 import aiohttp
+import pprint
 
 from aiohttp import web
 
@@ -45,6 +46,10 @@ async def main(request):
     oauth_token = os.environ.get("GH_AUTH")
 
     event = sansio.Event.from_http(request.headers, body, secret=secret)
+    print("GH delivery ID", event.delivery_id, file=sys.stderr)
+    print("event data:")
+    pp = pprint.PrettyPrinter(indent=4)
+    pp.pprint(event.data)
     async with aiohttp.ClientSession() as session:
         gh = gh_aiohttp.GitHubAPI(session, "mariatta",
                                   oauth_token=oauth_token)
