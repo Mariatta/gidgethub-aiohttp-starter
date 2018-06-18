@@ -19,9 +19,9 @@ async def issue_opened_event(event, gh, *args, **kwargs):
     author = event.data["issue"]["user"]["login"]
     user_type = event.data["issue"]["user"]["type"]
     if user_type == "Bot":
-        message = f"Thanks for the report @{author}! I will look into it ASAP! (I'm a bot 🤖)"
-    else:
         message = f"Thanks for the report! I will look into it ASAP! (I'm a bot 🤖)"
+    else:
+        message = f"Thanks for the report @{author}! I will look into it ASAP! (I'm a bot 🤖)"
     issue_comment_url = event.data["issue"]["comments_url"]
     await gh.post(issue_comment_url,
             data={
@@ -38,9 +38,9 @@ async def pull_request_opened_event(event, gh, *args, **kwargs):
     author = event.data["pull_request"]["user"]["login"]
     user_type = event.data["issue"]["user"]["type"]
     if user_type == "Bot":
-        message = f"Thanks for the PR @{author}! I will look into it ASAP! (I'm a bot 🤖)"
-    else:
         message = f"Thanks for the PR! I will look into it ASAP! (I'm a bot 🤖)"
+    else:
+        message = f"Thanks for the PR @{author}! I will look into it ASAP! (I'm a bot 🤖)"
     issue_comment_url = event.data["pull_request"]["comments_url"]
     await gh.post(issue_comment_url,
             data={
