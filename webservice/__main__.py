@@ -36,7 +36,7 @@ async def pull_request_opened_event(event, gh, *args, **kwargs):
     """
     print("got it")
     author = event.data["pull_request"]["user"]["login"]
-    user_type = event.data["issue"]["user"]["type"]
+    user_type = event.data["pull_request"]["user"]["type"]
     if user_type == "Bot":
         message = f"Thanks for the PR! I will look into it ASAP! (I'm a bot 🤖)"
     else:
